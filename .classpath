@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry kind="src" path="src"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.7"/>
+	<classpathentry kind="lib" path="C:/Users/arusyn/Documents/GitHub/rapgenius/jsoup-1.7.3.jar">
+		<attributes>
+			<attribute name="javadoc_location" value="jar:file:/C:/Users/arusyn/Downloads/jsoup-1.7.3-javadoc.jar!/"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry kind="lib" path="C:/Users/arusyn/Downloads/jsoup-1.7.3-javadoc.jar"/>
+	<classpathentry kind="lib" path="C:/Users/arusyn/Documents/RhymeAnalyzer/RhymeApp.jar" sourcepath="RhymeApp.jar">
+		<attributes>
+			<attribute name="org.eclipse.jdt.launching.CLASSPATH_ATTR_LIBRARY_PATH_ENTRY" value="C:/Users/arusyn/Documents/RhymeAnalyzer/rhymeanalyzer/RhymeApp"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry kind="output" path="bin"/>
+</classpath>
