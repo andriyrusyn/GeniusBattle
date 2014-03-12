@@ -12,22 +12,38 @@ Also this whole thing is very much inspired by kenshiro's rapgenius-js API (http
 
 USAGE
 ============
---ARTIST:
-Artist nas = new Artist("nas") //creates an artist for nas and loads the HTML from his page on RG
-nas.populatePopularSongs(); and nas.populateSongs //populates the songLists so they can be used later (chose not to include in the constructor because including these slowed things down waay too much)
-nas.addSongByName("Ether") //finds a specific song for the artist, adds it to the songs ArrayList, and returns it
+--ARTIST: 
 
---SONG:
+Artist nas = new Artist("nas") //creates an artist for nas and loads the HTML from his page on RG  
+
+nas.populatePopularSongs(); and nas.populateSongs //populates the songLists so they can be used later (chose not to include in the constructor because including these slowed things down waay too much)  
+
+nas.addSongByName("Ether") //finds a specific song for the artist, adds it to the songs ArrayList, and returns it  
+  
+  
+
+--SONG:  
+
 once you have an artist, create a song using Song s = Artist.addSongByName if you're looking for a specific song or use the constructors
-as with Artist, populateLyrics() and populateExplanations() aren't included in the constructors so they need to be called if you want this info.
-Song.getCleanTitle(true) //returns the songs title as a String in the format Artist - Song
-Song.getLyrics() //returns an ArrayList containing the lyrics
-Song.getExplanations() //same as with getLyrics
+as with Artist, populateLyrics() and populateExplanations() aren't included in the constructors so they need to be called if you want this info.  
 
---STRINGOPS:
-use these if you want to clean things up, count words, or transform ArrayList<String> into a String for use with the RhymeAnalyzer, or analyze some rhymes (will later refactor into several separate classes)
-String lyrWithNewLines = StringOps.getLyricsWithNewlines(Song); //returns a verse that can be used in the RhymeAnalyzer
-StringOps.analyzeRhymes(lyrWithNewLines); //analyzes a verse and prints the analysis to console
+Song.getCleanTitle(true) //returns the songs title as a String in the format Artist - Song  
+
+Song.getLyrics() //returns an ArrayList containing the lyrics  
+
+Song.getExplanations() //same as with getLyrics  
+
+
+--STRINGOPS:  
+
+use these if you want to clean things up, count words, or transform ArrayList<String> into a String for use with the RhymeAnalyzer, or analyze some rhymes (will later refactor into several separate classes)  
+
+String lyrWithNewLines = StringOps.getLyricsWithNewlines(Song); //returns a verse that can be used in the RhymeAnalyzer  
+
+StringOps.analyzeRhymes(lyrWithNewLines); //analyzes a verse and prints the analysis to console  
+  
+    
+    
 
 
 There are a lot more things that need to be done but progress has been made
