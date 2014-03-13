@@ -87,7 +87,10 @@ public class Song {
 			ArrayList<String> songExplanations= new ArrayList<String>();
 			for (Element element : songHTML.select(".lyrics > p  > a[href]")){
 				String lyricURL = StringOps.RAP_GENIUS_URL + element.attr("href"); //grabs the link for each ind. lyric's "page" which contains the explanation 
-				Document explanationHTML = Jsoup.connect(lyricURL).get();
+				Document explanationHTML = Jsoup
+						.connect(lyricURL)
+						.timeout(10000)
+						.get();
 				String explanation = explanationHTML.select("div > p, blockquote").text();  //in jquery in my browser .body_text works and is simpler (also requires no cleaning)
 				String cleanExplanation = StringOps.explanationCleaner(explanation);        //but in here and at try.jsoup.org I can't get any class selectors to work for some reason...
 				songExplanations.add(cleanExplanation);

@@ -11,18 +11,22 @@ public class Main {
 		
 		
 		Artist thisArtist = new Artist(artistName);
-	
-		System.out.println("Enter the song name: ");
-		String songNameNoSpaces = s.nextLine().replace(' ','+');
+		thisArtist.printImage();
+		
+//		System.out.println("Enter the song name: ");
+//		String songNameNoSpaces = s.nextLine().replace(' ','+');
 
-		Song searchedSong = thisArtist.addSongByName(songNameNoSpaces);
-		searchedSong.populateExplanations();
-		searchedSong.populateLyrics();
-		String lyrWithNewLines = StringOps.getLyricsWithNewlines(searchedSong);
+//		Song searchedSong = thisArtist.addSongByName(songNameNoSpaces);
+//		searchedSong.populateExplanations();
+//		searchedSong.populateLyrics();
+//		String lyrWithNewLines = StringOps.getLyricsWithNewlines(searchedSong);
+		
+		
+		
 //		String expsWithNewLines = StringOps.getExplanationsWithNewlines(searchedSong);
 //		System.out.println(lyrWithNewLines);
 		
-		StringOps.analyzeRhymes(lyrWithNewLines);
+
 		
 		
 //		System.out.println(StringOps.countWords("lyric word count " + lyrWithNewLines));
@@ -36,14 +40,32 @@ public class Main {
 //		System.out.println(thisSong.getTitle());
 		
 //		Song thisSong = thisArtist.getPopularSong(0);
+//		StringOps.analyzeRhymes(lyrWithNewLines);
+//		String verse = "";
+//		String explanations = "";
+//		for(int i = 0; i<searchedSong.lyrics.size(); i++){ //prints explanations for the song
+//			verse += searchedSong.lyrics.get(i);
+//			explanations += searchedSong.explanations.get(i);
+////			System.out.println(searchedSong.lyrics.get(i));
+//		}
+//	System.out.println("There are " + StringOps.countWords(verse) + " words in the lyrics for " + searchedSong.getName());	
+//	System.out.println("There are " + StringOps.countWords(explanations) + " words in the explanations for " + searchedSong.getName());
+//	double geniusBattleScore = (double) StringOps.countWords(explanations)/StringOps.countWords(verse);
+//	double roundedScore = StringOps.round(geniusBattleScore, 2);
+//	System.out.println("For a GeniusBattle score of: " + roundedScore);
+//	
+//	System.out.println("and here is the verse for you : " + '\n' + verse);
 		
-		for(int i = 0; i<searchedSong.explanations.size(); i++){ //prints explanations for the song
-		System.out.println(searchedSong.explanations.get(i));
-		}
+		
 
+	
+	
+
+		
 		
 //		String url = RAP_GENIUS_ARTIST_URL + artistName;
 
+	
 		
 	}
 }

@@ -1,8 +1,14 @@
 package test2;
 
+import java.io.BufferedOutputStream;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.net.URL;
 import java.util.ArrayList;
 
+import org.jsoup.Connection.Response;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
@@ -28,6 +34,13 @@ public class Artist {
 //		this.popularSongs = getPopularSongList();       //for now you just have to call Artist.populateSongs() or .populatePopularSongs() if you want to access them
 	}
 	
+	public void populateSongs() {
+		this.songs = getSongList();
+	}
+	
+	public void populatePopularSongs() {
+		this.popularSongs = getPopularSongList();
+	}
 	
 	public void addPopularSong (Song rapSong){
 		this.popularSongs.add(rapSong);
@@ -46,6 +59,7 @@ public class Artist {
 				String firstPartOfSongName = thisSong.getName().substring(0, thisSong.getMainArtist().length()); //used to check the artist name for the track agains this.name
 				String endOfSongName = thisSong.getName().substring(thisSong.getName().length() - songNameNoSpaces.length()); //used to check song name for the track against songNameNoSpaces
 				if(firstPartOfSongName.equalsIgnoreCase(this.name) && endOfSongName.equalsIgnoreCase(songNameNoSpaces.replace('+', ' '))){
+					songs.add(thisSong);
 					return thisSong;
 				}
 			}
@@ -85,13 +99,50 @@ public class Artist {
 			return null;
 		}
 	}
-	public void printImage(){ //TODO figure out how to save the image to a folder, snippet below is from the JSOUP docs
-	       //Open a URL Stream
-//        Response resultImageResponse = Jsoup.connect(imageLocation).cookies(cookies).ignoreContentType(true).execute();
-//
-//        // output here
-//        FileOutputStream out = (new FileOutputStream(new java.io.File(outputFolder + name)));
-//        out.write(resultImageResponse.bodyAsBytes());           // resultImageResponse.body() is where the image's contents are.
-//        out.close();
+	public void printImage() throws IOException{ //TODO figure out how to save the image to a folder, snippet below is from the JSOUP docs
+		//Connect to the website and get the html
+        Document doc = Jsoup.connect(this.url).get();
+
+        //Get all elements with img tag ,
+        Element img = doc.getElementsByTag("img").first();
+        String src = img.absUrl("src");
+
+        System.out.println("Image Found!");
+        System.out.println("src attribute is : "+src);
+        
+        getImages(src);
+
 	}
+	
+	private static void getImages(String src) throws IOException {
+		final String folderPath = "C:\\Users\\arusyn\\Dropbox\\GeniusBattle";
+        String folder = null;
+
+        //Extract the name of the image from the src attribute
+        int indexname = src.lastIndexOf("/");
+
+        if (indexname == src.length()) {
+            src = src.substring(1, indexname);
+        }
+
+        indexname = src.lastIndexOf("/");
+        String name = src.substring(indexname, src.length());
+
+        System.out.println(name);
+
+        //Open a URL Stream
+        URL url = new URL(src);
+        InputStream in = url.openStream();
+
+        OutputStream out = new BufferedOutputStream(new FileOutputStream( folderPath + name));
+
+        for (int b; (b = in.read()) != -1;) {
+            out.write(b);
+        }
+        out.close();
+        in.close();
+
+    }
+	
+	
 }

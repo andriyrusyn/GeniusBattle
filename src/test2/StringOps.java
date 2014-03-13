@@ -1,6 +1,7 @@
 package test2;
 
 import java.io.IOException;
+import java.math.BigDecimal;
 import java.util.ArrayList;
 
 import backend.Analysis;
@@ -43,6 +44,14 @@ public class StringOps {
 	    return wordCount;
 	}
 	
+	public static double round(double d, int decimalPlace){
+		    // see the Javadoc about why we use a String in the constructor
+		    // http://java.sun.com/j2se/1.5.0/docs/api/java/math/BigDecimal.html#BigDecimal(double)
+		    BigDecimal bd = new BigDecimal(Double.toString(d));
+		    bd = bd.setScale(decimalPlace,BigDecimal.ROUND_HALF_UP);
+		    return bd.doubleValue();
+	}
+	  
 	protected static String explanationCleaner(String dirtyExplanation){ //ghetto way to fix the fact that my selectors aren't working perfectly for the annotations
 		int firstPart = dirtyExplanation.indexOf("Genius") + 7;
 		String cleanerExplanation = dirtyExplanation.substring(firstPart);
