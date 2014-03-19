@@ -139,17 +139,17 @@ public class Analyzer {
 		countRhymes();
 
 		Analysis ret = new Analysis();
-		//ret.addStat("Num_Lines", numLines[s]);
-		//ret.addStat("Num_Syllables", numSylls[s]);
+//		ret.addStat("Num_Lines", numLines[s]);
+//		ret.addStat("Num_Syllables", numSylls[s]);
 		ret.addStat("Syllables_per_Line", (double)(numSylls/numLines));
 		ret.addStat("Syllables_per_Word", (double)(numSylls/numWords));
 		ret.addStat("Syllable_Variation", stddev(lineLengths));
 		ret.addStat("Novel_Word_Proportion", (double)(diffWords/numLines));
 
-		//ret.addStat("Num_Rhymes", numRhymes);
+		ret.addStat("Num_Rhymes", numRhymes);
 		ret.addStat("Rhymes_per_Line", (double)(numRhymes/numLines));
 		ret.addStat("Rhymes_per_Syllable", (double)(numRhymes/numSylls));
-		ret.addStat("Rhyme_Density", (double)(weightedNum/numSylls));
+		ret.addStat("Rhyme_Density", (double)(weightedNum/numSylls)); //weighted num is the total length of all the rhyming syllables
 
 		ret.addStat("End_Pairs_per_Line", (double)(endCount/numLines));
 		ret.addStat("End_Pairs_Grown", (double)(growCount/endCount));
@@ -159,7 +159,7 @@ public class Analyzer {
 		ret.addStat("Average_End_Score", (double)(endScore/endCount));
 		ret.addStat("Average_End_Syl_Score", (double)(endScore/endSylCount));
 
-		ret.addStat("Singles_per_Rhyme", (double)((numRhymes-numDouble-numTriple-numQuad-numLong)/numRhymes));
+		ret.addStat("Singles_per_Rhyme", (double)((numRhymes-numDouble-numTriple-numQuad-numLong)/numRhymes));  //these added together are extended rhymes ?check this?
 		ret.addStat("Doubles_per_Rhyme", (double)(numDouble/numRhymes));
 		ret.addStat("Triples_per_Rhyme", (double)(numTriple/numRhymes));
 		ret.addStat("Quads_per_Rhyme", (double)(numQuad/numRhymes));

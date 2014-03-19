@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
+import org.jsoup.select.Elements;
 
 public class Song {
 	protected String url;
@@ -14,7 +15,7 @@ public class Song {
 	protected ArrayList<String> explanations;
 	protected ArrayList<String> lyrics;
 	
-	public Song(String name) {
+	public Song(String name) { //TODO create URL automatically
 		this.name = name;
 	}
 	
@@ -22,6 +23,7 @@ public class Song {
 		this.name = name;
 		this.url = url;
 		try {
+			System.out.println("Song Link: " + url);
 			this.songHTML = Jsoup.connect(url).get();
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -29,7 +31,7 @@ public class Song {
 		
 	}
 
-	public void populateLyrics(){
+	public void populateLyrics(){ //TODO update this so it works better
 		this.lyrics = getLyrics();
 	}
 	
@@ -72,6 +74,16 @@ public class Song {
 		else return null;
 	}
 	
+	public String getDescription(){ 
+		String description = "";
+		Elements descriptors = songHTML.select("div.description_body p");
+		StringBuilder sb = new StringBuilder();
+		for (Element i : descriptors) {
+			sb.append(i.text() + "\n");
+		}
+		description = sb.toString();
+		return description;
+	}
 	
 	protected ArrayList<String> getLyrics(){
 		//TODO currently only grabs lyrics that have an annotation, fix that

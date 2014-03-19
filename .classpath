@@ -13,5 +13,6 @@
 			<attribute name="org.eclipse.jdt.launching.CLASSPATH_ATTR_LIBRARY_PATH_ENTRY" value="C:/Users/arusyn/Documents/RhymeAnalyzer/rhymeanalyzer/RhymeApp"/>
 		</attributes>
 	</classpathentry>
+	<classpathentry kind="lib" path="C:/Users/arusyn/workspace/GeniusBattle/mysql-connector-java-5.1.24/mysql-connector-java-5.1.24-bin.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

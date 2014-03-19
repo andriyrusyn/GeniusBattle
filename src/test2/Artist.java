@@ -21,7 +21,17 @@ public class Artist {
 	private ArrayList<Song> popularSongs = new ArrayList<Song>();
 	private ArrayList<Song> songs = new ArrayList<Song>();
 
-	
+	public Artist (String name, String url){
+		this.name = name.replace('-', ' ');
+		this.url = url;
+		try {		
+			this.artistHTML = Jsoup.connect(url).get();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+//		this.songs = getSongList();                     //including these in the constructor seems to slow things down quite a bit, might just be my internet though...
+//		this.popularSongs = getPopularSongList();       //for now you just have to call Artist.populateSongs() or .populatePopularSongs() if you want to access them
+	}	
 	public Artist (String name){
 		this.name = name.replace('-', ' ');
 		this.url = StringOps.RAP_GENIUS_ARTIST_URL + name;
@@ -54,7 +64,8 @@ public class Artist {
 			Elements results = searchHTML.select("ul.search_results > li.search_result"); //gets each search result from the list
 			for (int i = 0; i<15; i++){
 				String songTitle = results.get(i).text();  
-				String songLink = StringOps.RAP_GENIUS_URL + results.get(i).select("li > a").attr("href"); //gets each songs link
+				System.out.println("songTitle is: " + songTitle);
+				String songLink = results.get(i).select("li > a").attr("href"); //gets each songs link
 				Song thisSong = new Song(songTitle, songLink); //creates a new song Object TODO don't create a new object each time to save memory and increase performance??
 				String firstPartOfSongName = thisSong.getName().substring(0, thisSong.getMainArtist().length()); //used to check the artist name for the track agains this.name
 				String endOfSongName = thisSong.getName().substring(thisSong.getName().length() - songNameNoSpaces.length()); //used to check song name for the track against songNameNoSpaces
@@ -114,21 +125,21 @@ public class Artist {
 
 	}
 	
-	private static void getImages(String src) throws IOException {
-		final String folderPath = "C:\\Users\\arusyn\\Dropbox\\GeniusBattle";
-        String folder = null;
+	private void getImages(String src) throws IOException {
+		String folderPath = "C:\\Users\\arusyn\\Dropbox\\GeniusBattle";
+        String folder = this.name; //null
 
-        //Extract the name of the image from the src attribute
-        int indexname = src.lastIndexOf("/");
-
-        if (indexname == src.length()) {
-            src = src.substring(1, indexname);
-        }
-
-        indexname = src.lastIndexOf("/");
-        String name = src.substring(indexname, src.length());
-
-        System.out.println(name);
+//        //Extract the name of the image from the src attribute
+//        int indexname = src.lastIndexOf("/");
+//
+//        if (indexname == src.length()) {
+//            src = src.substring(1, indexname);
+//        }
+//
+//        indexname = src.lastIndexOf("/");
+//        String name = src.substring(indexname, src.length());
+//
+//        System.out.println(name);
 
         //Open a URL Stream
         URL url = new URL(src);
