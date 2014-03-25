@@ -45,8 +45,6 @@ public class StringOps {
 	}
 	
 	public static double round(double d, int decimalPlace){
-		    // see the Javadoc about why we use a String in the constructor
-		    // http://java.sun.com/j2se/1.5.0/docs/api/java/math/BigDecimal.html#BigDecimal(double)
 		    BigDecimal bd = new BigDecimal(Double.toString(d));
 		    bd = bd.setScale(decimalPlace,BigDecimal.ROUND_HALF_UP);
 		    return bd.doubleValue();
@@ -76,28 +74,11 @@ public class StringOps {
 		return explanations;
 	}
 	
-	
-	protected static void analyzeRhymes (String verse) throws Exception { //takes a verse as a string and runs it through all the RhymeAnalyzer methods needed to print the analysis
-	    String STATS_FILE = "iterationStatsUF.txt"; 
-	    Stats st = new Stats(STATS_FILE);
-	  	Scoring sc = new Scoring(st, Stats.SPLIT);
-	  	Detector det = new Detector(sc);
-	    Transcriptor tr = new Transcriptor();
-	  	String[] plainLines = verse.split("\n");
-	       if (plainLines.length<2) return;
-	       ArrayList<PLine> inLines = new ArrayList<PLine>();
-	       for (int i=0; i<plainLines.length; i++) {
-	           inLines.add(tr.transcribe(plainLines[i]));
-	       }
-	    Analyzer an = new Analyzer("Input Lines", sc);
-	    String outLine = "";
-	    RhymeCollection rc = det.getRhymes(inLines);
-	    rc.lines = inLines;
-	    an.addRhymes(rc);
-	    Analysis anOut = an.createAnalysis();
-	    outLine = anOut.toString();
-	 	System.out.println(outLine);		//prints the actual analysis out
-	  	}
+	public static double getGeniusBattleScore(Song song) throws IOException{ 
+		double geniusBattleScore = (double) StringOps.countWords(StringOps.getExplanationsWithNewlines(song))/StringOps.countWords(StringOps.getLyricsWithNewlines(song));
+		double roundedScore = StringOps.round(geniusBattleScore, 2);
+		return roundedScore;
+	}
 
 	
 }

@@ -110,6 +110,12 @@ public class Artist {
 			return null;
 		}
 	}
+	
+	public ArrayList<String> getAlbumList() {
+		ArrayList<String> albumList = new ArrayList<String>();
+		
+		return albumList;
+	}
 	public void printImage() throws IOException{ //TODO figure out how to save the image to a folder, snippet below is from the JSOUP docs
 		//Connect to the website and get the html
         Document doc = Jsoup.connect(this.url).get();

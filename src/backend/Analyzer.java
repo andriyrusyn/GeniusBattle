@@ -174,6 +174,31 @@ public class Analyzer {
 
 		return ret;
 	}
+	
+	public static Analysis createAnalysis ( String verse ) throws Exception{
+		String STATS_FILE = "iterationStatsUF.txt"; 
+	    Stats st = new Stats(STATS_FILE);
+	  	Scoring sc = new Scoring(st, Stats.SPLIT);
+	  	Detector det = new Detector(sc);
+	    Transcriptor tr = new Transcriptor();
+	  	String[] plainLines = verse.split("\n");
+	       if (plainLines.length<2) return null;
+	       ArrayList<PLine> inLines = new ArrayList<PLine>();
+	       for (int i=0; i<plainLines.length; i++) {
+	           inLines.add(tr.transcribe(plainLines[i]));
+	       }
+	    Analyzer an = new Analyzer("Input Lines", sc);
+	    String outLine = "";
+	    RhymeCollection rc = det.getRhymes(inLines);
+	    rc.lines = inLines;
+	    an.addRhymes(rc);
+	    Analysis anOut = an.createAnalysis();
+	    outLine = anOut.toString();		
+	    
+		return anOut;
+		
+		
+	}
 
 	private void countRhymes() {
 		numLines = 0;
