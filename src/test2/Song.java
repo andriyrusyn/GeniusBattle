@@ -24,7 +24,11 @@ public class Song {
 		this.url = url;
 		try {
 			System.out.println("Song Link: " + url);
-			this.songHTML = Jsoup.connect(url).get();
+			this.songHTML = Jsoup
+					.connect(url)
+					.timeout(10000)
+					.get();
+			
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -42,6 +46,10 @@ public class Song {
 	public String getName(){
 		return this.name;
 	}
+	
+	public String getLink(){
+		return this.url;
+	}
 
 	public String getMainArtist(){
 			String artist = songHTML.select(".song_header > .song_title > a").text();
@@ -56,22 +64,10 @@ public class Song {
 		return featuredArtists;
 	}
 	
-	public String getCleanTitle(Boolean withArtistName){ //a way of cleaning up the Song's title to remove anything like (ft. XXXXX) or prod. by XXXX which get returned from Rapgenius
-		String titleDirty = songHTML.select(".song_header > .song_title").text();
-		String titleClean = titleDirty.substring(0, titleDirty.length() - " Lyrics".length());
-		if(titleClean.indexOf("prod.") != -1 ){ //if "prod." exists, delete it and anything after it
-			titleClean = titleClean.substring(0, titleClean.indexOf("prod."));
-		}
-		if(titleClean.indexOf('(') != -1){ //if there is an open parantheses, delete it and anything after it
-			titleClean = titleClean.substring(0, titleClean.indexOf('('));
-		}
-		if(withArtistName) return titleClean;
-		if(withArtistName == false){
-			int startOfSongTitle = titleClean.indexOf('–') + 2; //find where the "-" between artist and song name is and add 2 to remove the spaces after it
-			titleClean = titleClean.substring(startOfSongTitle); //delete the artists name
-			return titleClean;
-		}
-		else return null;
+	public String getAlbumName(){
+		String albumDirty = songHTML.select(".other_songs_from_album > .label").text(); //selects the title of the album the song is from
+		String albumClean = albumDirty.substring(5,albumDirty.indexOf(" lyrics")); //removes extra words
+		return albumClean; 
 	}
 	
 	public String getDescription(){ 
@@ -94,7 +90,11 @@ public class Song {
 		return songLyrics;
 	}
 	
-
+	protected String getCleanTitle(boolean withArtistName){
+		String titleDirty = songHTML.select(".song_header > .song_title").text();
+		String cleanTitle = StringOps.titleCleaner(titleDirty, withArtistName);
+		return cleanTitle;
+	}
 	protected ArrayList<String> getExplanations() throws IOException{ //seems to print them several times over, this needs a good bit of debugging so left the System.outs
 			ArrayList<String> songExplanations= new ArrayList<String>();
 			for (Element element : songHTML.select(".lyrics > p  > a[href]")){

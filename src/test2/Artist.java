@@ -18,19 +18,25 @@ public class Artist {
 	private String name;
 	private Document artistHTML;
 	private String url;
+	private String album;
 	private ArrayList<Song> popularSongs = new ArrayList<Song>();
 	private ArrayList<Song> songs = new ArrayList<Song>();
+	private ArrayList<Album> albums = new ArrayList<Album>();
 
 	public Artist (String name, String url){
 		this.name = name.replace('-', ' ');
 		this.url = url;
 		try {		
-			this.artistHTML = Jsoup.connect(url).get();
+			this.artistHTML = Jsoup
+					.connect(url)
+					.timeout(10000)
+					.get();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
 //		this.songs = getSongList();                     //including these in the constructor seems to slow things down quite a bit, might just be my internet though...
 //		this.popularSongs = getPopularSongList();       //for now you just have to call Artist.populateSongs() or .populatePopularSongs() if you want to access them
+//	    this.albums = getAlbumList();
 	}	
 	public Artist (String name){
 		this.name = name.replace('-', ' ');
@@ -44,18 +50,15 @@ public class Artist {
 //		this.popularSongs = getPopularSongList();       //for now you just have to call Artist.populateSongs() or .populatePopularSongs() if you want to access them
 	}
 	
-	public void populateSongs() {
-		this.songs = getSongList();
-	}
+	public void populateSongs() { this.songs = getSongList(); }	
+	public void populatePopularSongs() { this.popularSongs = getPopularSongList(); }
+	public void populateAlbums () { this.albums = getAlbumList(); }
 	
-	public void populatePopularSongs() {
-		this.popularSongs = getPopularSongList();
-	}
+	public String getName(){ return this.name; }
+	public String getLink(){ return this.url; }
 	
-	public void addPopularSong (Song rapSong){
-		this.popularSongs.add(rapSong);
-	}
-	
+	public void addPopularSong (Song rapSong){ this.popularSongs.add(rapSong); }
+
 	public Song addSongByName (String songNameNoSpaces){
 		String url = StringOps.RAP_GENIUS_SEARCH_URL + songNameNoSpaces; 
 		//below we load the search page HTML from rapgenius and loop through the first 15 results, only returning the Song object if it's the correct song
@@ -67,9 +70,9 @@ public class Artist {
 				System.out.println("songTitle is: " + songTitle);
 				String songLink = results.get(i).select("li > a").attr("href"); //gets each songs link
 				Song thisSong = new Song(songTitle, songLink); //creates a new song Object TODO don't create a new object each time to save memory and increase performance??
-				String firstPartOfSongName = thisSong.getName().substring(0, thisSong.getMainArtist().length()); //used to check the artist name for the track agains this.name
-				String endOfSongName = thisSong.getName().substring(thisSong.getName().length() - songNameNoSpaces.length()); //used to check song name for the track against songNameNoSpaces
-				if(firstPartOfSongName.equalsIgnoreCase(this.name) && endOfSongName.equalsIgnoreCase(songNameNoSpaces.replace('+', ' '))){
+				String firstPartOfSongName = thisSong.getName().substring(0, thisSong.getMainArtist().length()); //used to check the artist name for the track against this.name
+				String endOfSongLink = thisSong.getLink().substring((thisSong.getLink().length()-7-songNameNoSpaces.length()), (thisSong.getLink().length()-7)); //used to check song name for the track against songNameNoSpaces
+				if(firstPartOfSongName.equalsIgnoreCase(this.name) && endOfSongLink.equalsIgnoreCase(songNameNoSpaces.replace('+', '-'))){
 					songs.add(thisSong);
 					return thisSong;
 				}
@@ -89,10 +92,27 @@ public class Artist {
 		}
 		return songList;
 	}
-
-	public Song getPopularSong(int index){ 
-		return popularSongs.get(index);
+	public Song getSong(int index){ return songs.get(index); }
+	
+	
+	public ArrayList<Album> getAlbumList(){ //grabs all the album names 
+		ArrayList<Album> albumList = new ArrayList<Album>();
+		for (Element element : artistHTML.select(".album_list a")){ 
+			Album thisAlbum = new Album(element.text(), element.attr("href"));
+			albumList.add(thisAlbum);
+		}
+		return albumList;
 	}
+	public Album getAlbum(int index){ return albums.get(index); }
+	public Album getAlbum(String name){
+		for(Album a : albums){
+			if(a.getName().equalsIgnoreCase(name)){
+				return a;
+			}
+		}
+		return null;
+	}
+	
 	
 	public ArrayList<Song> getPopularSongList() {  //one of the more useful methods, returns an arraylist of the artists popular songs - the top 6 or 7 according to rapgenius
 		ArrayList<Song> popularSongList = new ArrayList<Song>();
@@ -111,11 +131,8 @@ public class Artist {
 		}
 	}
 	
-	public ArrayList<String> getAlbumList() {
-		ArrayList<String> albumList = new ArrayList<String>();
-		
-		return albumList;
-	}
+	public Song getPopularSong(int index){ return popularSongs.get(index); }
+	
 	public void printImage() throws IOException{ //TODO figure out how to save the image to a folder, snippet below is from the JSOUP docs
 		//Connect to the website and get the html
         Document doc = Jsoup.connect(this.url).get();

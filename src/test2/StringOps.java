@@ -79,6 +79,22 @@ public class StringOps {
 		double roundedScore = StringOps.round(geniusBattleScore, 2);
 		return roundedScore;
 	}
-
+	
+	public static String titleCleaner(String titleDirty, Boolean withArtistName){ //a way of cleaning up the Song's title to remove anything like (ft. XXXXX) or prod. by XXXX which get returned from Rapgenius
+		String titleClean = titleDirty.substring(0, titleDirty.length() - " Lyrics".length());
+		if(titleClean.indexOf("prod.") != -1 ){ //if "prod." exists, delete it and anything after it
+			titleClean = titleClean.substring(0, titleClean.indexOf("prod."));
+		}
+		if(titleClean.indexOf('(') != -1){ //if there is an open parantheses, delete it and anything after it
+			titleClean = titleClean.substring(0, titleClean.indexOf('('));
+		}
+		if(withArtistName) return titleClean;
+		if(withArtistName == false){
+			int startOfSongTitle = titleClean.indexOf('–') + 2; //find where the "-" between artist and song name is and add 2 to remove the spaces after it
+			titleClean = titleClean.substring(startOfSongTitle); //delete the artists name
+			return titleClean;
+		}
+		else return null;
+	}
 	
 }
