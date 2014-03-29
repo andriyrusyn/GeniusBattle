@@ -24,7 +24,7 @@ public class MySQL {
 		connection();
 		String host = "jdbc:mysql://localhost/test";
 		String username = "root";
-		String password = "uukraine";
+		String password = "######";
 		try {
 			Connection connect = DriverManager.getConnection(host, username, password);
 			java.sql.Statement s = connect.createStatement();

@@ -14,6 +14,7 @@ public class Album {
 	private String url;
 	private ArrayList<Song> songs = new ArrayList<Song>();
 	private Document albumHTML;
+	private int year;
 	
 	public Album (String name, String url) {
 		this.name = name;
@@ -26,11 +27,29 @@ public class Album {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+		this.year = getYear();
 	}
 	
 	public String getName(){return this.name;}
-	public String geturl(){return this.url;}
+	public String getURL(){return this.url;}
 	public ArrayList<Song> getSongs(){return songs;}
+	
+	private int getYear(){
+		Elements e = albumHTML.select(".name");
+		String name = e.text();
+		if(name.indexOf('(') != -1){
+			String nameIfYearExists = name.substring(name.indexOf('(')+1, name.indexOf('(')+5);
+			try{
+				int yr = java.lang.Integer.parseInt(nameIfYearExists);
+				System.out.println("Success! year is: " + yr);
+				return yr;
+			} catch (NumberFormatException n) {
+				n.printStackTrace();
+			}
+		}
+		return 0000;
+		
+	}
 	
 	public void populateSongList(){
 		Elements songResults = albumHTML.select(".song_list a");

@@ -58,13 +58,14 @@ public class StringOps {
 		return cleanestExplanation;
 	}
 	
-	public static String getLyricsWithNewlines(Song song){ //returns a string containing all the lyrics from a song with newlines for display or to pass to the rhymeanalyzer
-		String lyrics = "";
-		for(int i = 0; i<song.getLyrics().size();i++){
-			lyrics += song.getLyrics().get(i) + '\n';
-		}
-		return lyrics;
-	}
+	// BELOW IS ONLY NEEDED IF USING MY VERSION OF THE LYRICS PARSER (which returns an arraylist of lyric strings)
+//	public static String getLyricsWithNewlines(Song song){ //returns a string containing all the lyrics from a song with newlines for display or to pass to the rhymeanalyzer
+//		String lyrics = "";
+//		for(int i = 0; i<song.getLyrics().size();i++){
+//			lyrics += song.getLyrics().get(i) + '\n';
+//		}
+//		return lyrics;
+//	}
 	
 	protected static String getExplanationsWithNewlines(Song song) throws IOException{ //doesn't work very well for some reason, should work just like getLyricsWithNewLines but doesn't...
 		String explanations = "";
@@ -75,7 +76,7 @@ public class StringOps {
 	}
 	
 	public static double getGeniusBattleScore(Song song) throws IOException{ 
-		double geniusBattleScore = (double) StringOps.countWords(StringOps.getExplanationsWithNewlines(song))/StringOps.countWords(StringOps.getLyricsWithNewlines(song));
+		double geniusBattleScore = (double) StringOps.countWords(StringOps.getExplanationsWithNewlines(song))/StringOps.countWords(song.getLyrics());
 		double roundedScore = StringOps.round(geniusBattleScore, 2);
 		return roundedScore;
 	}

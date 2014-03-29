@@ -55,7 +55,7 @@ public class Artist {
 	public void populateAlbums () { this.albums = getAlbumList(); }
 	
 	public String getName(){ return this.name; }
-	public String getLink(){ return this.url; }
+	public String getURL(){ return this.url; }
 	
 	public void addPopularSong (Song rapSong){ this.popularSongs.add(rapSong); }
 
@@ -100,13 +100,14 @@ public class Artist {
 		for (Element element : artistHTML.select(".album_list a")){ 
 			Album thisAlbum = new Album(element.text(), element.attr("href"));
 			albumList.add(thisAlbum);
+			System.out.println(element.text());
 		}
 		return albumList;
 	}
 	public Album getAlbum(int index){ return albums.get(index); }
-	public Album getAlbum(String name){
+	public Album getAlbum(String albumNameNoSpaces){
 		for(Album a : albums){
-			if(a.getName().equalsIgnoreCase(name)){
+			if(a.getName().equalsIgnoreCase(albumNameNoSpaces)){
 				return a;
 			}
 		}
@@ -133,50 +134,6 @@ public class Artist {
 	
 	public Song getPopularSong(int index){ return popularSongs.get(index); }
 	
-	public void printImage() throws IOException{ //TODO figure out how to save the image to a folder, snippet below is from the JSOUP docs
-		//Connect to the website and get the html
-        Document doc = Jsoup.connect(this.url).get();
-
-        //Get all elements with img tag ,
-        Element img = doc.getElementsByTag("img").first();
-        String src = img.absUrl("src");
-
-        System.out.println("Image Found!");
-        System.out.println("src attribute is : "+src);
-        
-        getImages(src);
-
-	}
-	
-	private void getImages(String src) throws IOException {
-		String folderPath = "C:\\Users\\arusyn\\Dropbox\\GeniusBattle";
-        String folder = this.name; //null
-
-//        //Extract the name of the image from the src attribute
-//        int indexname = src.lastIndexOf("/");
-//
-//        if (indexname == src.length()) {
-//            src = src.substring(1, indexname);
-//        }
-//
-//        indexname = src.lastIndexOf("/");
-//        String name = src.substring(indexname, src.length());
-//
-//        System.out.println(name);
-
-        //Open a URL Stream
-        URL url = new URL(src);
-        InputStream in = url.openStream();
-
-        OutputStream out = new BufferedOutputStream(new FileOutputStream( folderPath + name));
-
-        for (int b; (b = in.read()) != -1;) {
-            out.write(b);
-        }
-        out.close();
-        in.close();
-
-    }
 	
 	
 }

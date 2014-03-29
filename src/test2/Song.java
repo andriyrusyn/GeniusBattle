@@ -13,7 +13,7 @@ public class Song {
 	private Document songHTML;
 	private String name;
 	protected ArrayList<String> explanations;
-	protected ArrayList<String> lyrics;
+	protected String lyrics;
 	
 	public Song(String name) { //TODO create URL automatically
 		this.name = name;
@@ -81,13 +81,18 @@ public class Song {
 		return description;
 	}
 	
-	protected ArrayList<String> getLyrics(){
-		//TODO currently only grabs lyrics that have an annotation, fix that
-		ArrayList<String> songLyrics= new ArrayList<String>();
-		for (Element element : songHTML.select(".lyrics > p > a")){ //.lyrics > p  grabs all lyrics (including unannotated) all in one element... if you add > a you get them back as separate elements but lose the linebreaks
-			songLyrics.add(element.text());
-		}
-		return songLyrics;
+//	protected ArrayList<String> getLyrics(){
+//		//TODO currently only grabs lyrics that have an annotation, fix that
+//		ArrayList<String> songLyrics= new ArrayList<String>();
+//		for (Element element : songHTML.select(".lyrics > p > a")){ //.lyrics > p  grabs all lyrics (including unannotated) all in one element... if you add > a you get them back as separate elements but lose the linebreaks
+//			songLyrics.add(element.text());
+//		}
+//		return songLyrics;
+//	}
+	
+	protected String getLyrics(){ //alternative Lyrics grabber using 
+		Page pg = new Page(this.url);
+		return pg.getLyrics();
 	}
 	
 	protected String getCleanTitle(boolean withArtistName){
