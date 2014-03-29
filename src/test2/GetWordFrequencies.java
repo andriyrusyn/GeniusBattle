@@ -35,9 +35,7 @@ public class GetWordFrequencies {
 	
 	public static void main(String[] args) {
 		String link1 = "http://rapgenius.com/Eminem-rap-god-lyrics";
-		String link2 = "http://rapgenius.com/Eminem-rap-god-lyrics";
-		String link3 = "http://rapgenius.com/Eminem-rap-god-lyrics";
-		Page[] pgArr = {new Page(link1), new Page(link2), new Page(link3)};
+		Page[] pgArr = {new Page(link1)};
 		GetWordFrequencies gw = new GetWordFrequencies(pgArr);
 	}
 	

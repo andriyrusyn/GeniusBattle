@@ -81,7 +81,7 @@ public class Song {
 		return description;
 	}
 	
-//	protected ArrayList<String> getLyrics(){
+//	protected ArrayList<String> getLyrics(){    //MY OLDER VERSION THAT DOESN'T WORK AS WELL as /mdreid's which I use below
 //		//TODO currently only grabs lyrics that have an annotation, fix that
 //		ArrayList<String> songLyrics= new ArrayList<String>();
 //		for (Element element : songHTML.select(".lyrics > p > a")){ //.lyrics > p  grabs all lyrics (including unannotated) all in one element... if you add > a you get them back as separate elements but lose the linebreaks
@@ -90,7 +90,7 @@ public class Song {
 //		return songLyrics;
 //	}
 	
-	protected String getLyrics(){ //alternative Lyrics grabber using 
+	protected String getLyrics(){ //alternative Lyrics grabber using mdreid's code
 		Page pg = new Page(this.url);
 		return pg.getLyrics();
 	}

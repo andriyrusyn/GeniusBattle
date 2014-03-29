@@ -41,10 +41,10 @@ public class Album {
 			String nameIfYearExists = name.substring(name.indexOf('(')+1, name.indexOf('(')+5);
 			try{
 				int yr = java.lang.Integer.parseInt(nameIfYearExists);
-				System.out.println("Success! year is: " + yr);
+				System.out.println("Success! year is: " + yr + "  for the album: " + name);
 				return yr;
 			} catch (NumberFormatException n) {
-				n.printStackTrace();
+				System.out.println("couldn't find a year for the album: " + name);
 			}
 		}
 		return 0000;

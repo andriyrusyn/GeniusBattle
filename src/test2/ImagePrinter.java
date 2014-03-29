@@ -27,7 +27,7 @@ public class ImagePrinter {
 	}
 	
 	private static void getImages(String src, String name2) throws IOException {
-		String folderPath = "C:\\Users\\arusyn\\Dropbox\\GeniusBattle";     
+		String folderPath = "C:\\Users\\arusyn\\Dropbox\\GeniusBattle\\Images";     
         //Open a URL Stream
         URL url = new URL(src);
         InputStream in = url.openStream();

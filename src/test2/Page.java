@@ -67,14 +67,26 @@ public class Page {
 		Pattern p3 = Pattern.compile(regex3);
 		Matcher matcher3 = p3.matcher(s3);
 		String s4 = matcher3.replaceAll("");
-		lyrics = s4.replaceAll("^\\s+|\\s+$|\\s*(\n)\\s*|(\\s)\\s*", "$1$2").replace("\t"," ");
-		
+		String l = s4.replaceAll("^\\s+|\\s+$|\\s*(\n)\\s*|(\\s)\\s*", "$1$2").replace("\t"," ");
+		lyrics = l;
 	}
 	
 	public Page(URL url) {
 		this(url.toString());
 	}
 	
+	private String cleanLyrics(String oldLyrics){
+		int firstAsterisk = oldLyrics.indexOf('*');
+		int nextAsterisk = oldLyrics.indexOf('*', firstAsterisk + 1);
+		System.out.println("asterisk locations are: " + firstAsterisk + "     and then     " + nextAsterisk);
+		if(firstAsterisk != -1){
+			System.out.println("passed if");
+			StringBuilder newLyrics = new StringBuilder(oldLyrics);
+			newLyrics.replace(firstAsterisk-1, nextAsterisk+1, "\n");
+			String returnedLyrics = newLyrics.toString();
+			return returnedLyrics;
+		} else return null;
+	}
 	
 	public String getURL() { return url; }
 	

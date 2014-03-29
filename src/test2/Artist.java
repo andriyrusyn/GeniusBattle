@@ -19,6 +19,7 @@ public class Artist {
 	private Document artistHTML;
 	private String url;
 	private String album;
+	private String description;
 	private ArrayList<Song> popularSongs = new ArrayList<Song>();
 	private ArrayList<Song> songs = new ArrayList<Song>();
 	private ArrayList<Album> albums = new ArrayList<Album>();
@@ -34,6 +35,7 @@ public class Artist {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+		this.description = populateDescription();
 //		this.songs = getSongList();                     //including these in the constructor seems to slow things down quite a bit, might just be my internet though...
 //		this.popularSongs = getPopularSongList();       //for now you just have to call Artist.populateSongs() or .populatePopularSongs() if you want to access them
 //	    this.albums = getAlbumList();
@@ -53,13 +55,14 @@ public class Artist {
 	public void populateSongs() { this.songs = getSongList(); }	
 	public void populatePopularSongs() { this.popularSongs = getPopularSongList(); }
 	public void populateAlbums () { this.albums = getAlbumList(); }
+	public String populateDescription(){ Page pg = new Page(this.url);	return pg.getDescription();	}
 	
 	public String getName(){ return this.name; }
 	public String getURL(){ return this.url; }
 	
 	public void addPopularSong (Song rapSong){ this.popularSongs.add(rapSong); }
 
-	public Song addSongByName (String songNameNoSpaces){
+	public Song getSongByName (String songNameNoSpaces){
 		String url = StringOps.RAP_GENIUS_SEARCH_URL + songNameNoSpaces; 
 		//below we load the search page HTML from rapgenius and loop through the first 15 results, only returning the Song object if it's the correct song
 		try {		 
@@ -77,9 +80,7 @@ public class Artist {
 					return thisSong;
 				}
 			}
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+		} catch (IOException e) { e.printStackTrace(); }
 		return null;
 	}
 	
@@ -92,6 +93,7 @@ public class Artist {
 		}
 		return songList;
 	}
+	
 	public Song getSong(int index){ return songs.get(index); }
 	
 	
@@ -104,7 +106,9 @@ public class Artist {
 		}
 		return albumList;
 	}
+	
 	public Album getAlbum(int index){ return albums.get(index); }
+	
 	public Album getAlbum(String albumNameNoSpaces){
 		for(Album a : albums){
 			if(a.getName().equalsIgnoreCase(albumNameNoSpaces)){
@@ -113,7 +117,6 @@ public class Artist {
 		}
 		return null;
 	}
-	
 	
 	public ArrayList<Song> getPopularSongList() {  //one of the more useful methods, returns an arraylist of the artists popular songs - the top 6 or 7 according to rapgenius
 		ArrayList<Song> popularSongList = new ArrayList<Song>();
@@ -133,7 +136,6 @@ public class Artist {
 	}
 	
 	public Song getPopularSong(int index){ return popularSongs.get(index); }
-	
 	
 	
 }
